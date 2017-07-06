@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>mi ubicación en #CPMX8</title>
+  <meta name="description" content="Map for #CPMX8">
+  <meta name="author" content="@checor">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <div class="one-half column" style="margin-top: 10%">
+        <h4>Mi ubicación en #CPMX8</h4>
+        <p>Haz click donde te encuentras y comparte tu URL con tu ubicación 😉</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="one-third column">
+        <input placeholder="miubicacion.com" id="MapUrl" type="url">
+      </div>
+      <div class="two-thirds column">
+        <button class="button-primary">Copiar ubicación</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="full column">
+        <canvas id="myMap" class="u-full-width" width="1317" height="896"></canvas>  
+      </div>
+    </div>
+
+
+
+    <script>
+
+    function getJsonFromUrl() {
+      var query = location.search.substr(1);
+      var result = {};
+      query.split("&").forEach(function(part) {
+        var item = part.split("=");
+        result[item[0]] = decodeURIComponent(item[1]);
+      });
+      return result;
+    }
+
+    var url_json = getJsonFromUrl();
+
+    var canvas = document.getElementById("myMap");
+    var context = canvas.getContext("2d");
+
+    context.fillStyle = "#000";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    var mapSprite = new Image();
+    mapSprite.src = "images/map.png";
+
+    var Marker = function () {
+      this.Sprite = new Image();
+      this.Sprite.src = "images/marker.png"
+      this.Width = 48;
+      this.Height = 48;
+      this.XPos = 0;
+      this.YPos = 0;
+    }
+
+      var marker = new Marker();
+
+    var drawMap =function(){
+      context.clearRect(0,0,canvas.width,canvas.height)
+      var mapSprite = new Image();
+      mapSprite.src = "images/map.png";
+      //mapSprite.onload = function(){
+        context.drawImage(mapSprite,0,0,canvas.width, canvas.height);
+      //}
+    }
+
+    drawMap();
+
+    if(url_json["x"] !== null && url_json["y"] !== null){
+      
+      var x = url_json["x"]
+      var y = url_json["y"]
+
+      marker.XPos = Math.round(x - (marker.Width / 2));
+      marker.YPos = Math.round(y - marker.Height);
+
+      context.drawImage(marker.Sprite, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
+    }
+
+    var mouseClicked =function(mouse){
+      drawMap();
+
+      var rect = canvas.getBoundingClientRect();
+      var x = Math.round((mouse.x - rect.left) * canvas.width / rect.width);
+      var y = Math.round((mouse.y - rect.top) * canvas.height / rect.height);
+      
+
+      var current_url = window.location.href.split("&")[0]
+
+      document.getElementById("MapUrl").value = current_url + "?x=" + x + "&y=" + y
+
+
+      marker.XPos = Math.round(x - (marker.Width / 2));
+      marker.YPos = Math.round(y - marker.Height);
+
+      context.drawImage(marker.Sprite, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
+    }
+    canvas.addEventListener("click", mouseClicked, false);
+        
+
+              
+</script>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
