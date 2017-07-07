@@ -93,10 +93,8 @@
         if(x !== undefined && y !== undefined){
           var new_url = current_url + "?x=" + x + "&y=" + y
           document.getElementById("MapUrl").value = encodeURI(new_url)
-          window.onload= function(){
             console.log("Pos:", new_url)
             document.getElementById("twitterbtn").setAttribute('data-url', encodeURI(new_url));
-          }
         }
         else{
           document.getElementById("MapUrl").value = current_url
