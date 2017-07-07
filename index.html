@@ -32,7 +32,7 @@
         <input placeholder="miubicacion.com" class="u-full-width" id="MapUrl" type="url" onClick="this.select();">
       </div>
       <div class="one-third column">
-      <a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false" id="twitterbtn">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      <a href="https://twitter.com/share" class="button button-primary" id="twitterbtn">Twittear</a>
       </div>
     </div>
 
@@ -89,23 +89,22 @@
         context.drawImage(mapSprite,0,0,canvas.width, canvas.height);
 
         var current_url = window.location.href.split("?")[0]
-        console.log(current_url)
         if(x !== undefined && y !== undefined){
           var new_url = current_url + "?x=" + x + "&y=" + y
           document.getElementById("MapUrl").value = encodeURI(new_url)
             console.log("Pos:", new_url)
-            document.getElementById("twitterbtn").setAttribute('data-url', encodeURI(new_url));
+            console.log(encodeURI("http://twitter.com/home?status=") + encodeURI("Mi ubicación en ")+ "%23" + encodeURI("CPMX8 es: ") + encodeURIComponent(new_url))
+            document.getElementById("twitterbtn")
+            .setAttribute('href', encodeURI("http://twitter.com/home?status=") + encodeURI("Mi ubicación en ")+ "%23" + encodeURI("CPMX8 es: ") + encodeURIComponent(new_url))
         }
         else{
+          console.log("Undefined POS")
           document.getElementById("MapUrl").value = current_url
         }
         var marker = new Marker();
         marker.XPos = Math.round(x - (marker.Width / 2));
         marker.YPos = Math.round(y - marker.Height);
 
-        mark.onload = function(){
-          context.drawImage(mark, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
-        }
         context.drawImage(mark, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
       
 
