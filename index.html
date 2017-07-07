@@ -93,13 +93,16 @@
         marker.YPos = Math.round(y - marker.Height);
         var current_url = window.location.href.split("&")[0]
         if(x !== undefined && y !== undefined){
-          document.getElementById("MapUrl").value = current_url + "?x=" + x + "&y=" + y
-          document.getElementById('twitterbtn').setAttribute('data-url', document.getElementById('MapUrl').value);
+          var new_url = current_url + "?x=" + x + "&y=" + y
+          document.getElementById("MapUrl").value = new_url
+          document.getElementById('twitterbtn').setAttribute('data-url', new_url);
         }
         else{
           document.getElementById("MapUrl").value = current_url
         }
-        context.drawImage(marker.Sprite, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
+        marker.Sprite.onload =function(){
+          context.drawImage(marker.Sprite, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
+        }
       }
 
       var href = location.href;
