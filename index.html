@@ -72,7 +72,7 @@
 
 
     var drawMap =function(x, y){
-      console.log("Draw map called", x, y)
+      console.log("Draw map called")
       context.clearRect(0,0,canvas.width,canvas.height)
       var mapSprite = new Image();
       mapSprite.src = "images/map2.png";
@@ -116,16 +116,14 @@
       var href = location.href;
 
     }
-
-    drawMap();
-
+window.onload = function () {
     if(url_json["x"] !== null && url_json["y"] !== null){
       drawMap( url_json["x"], url_json["y"])
+    }else{
+      drawMap()
     }
 
     var mouseClicked =function(mouse){
-      
-
       var rect = canvas.getBoundingClientRect();
       var x = Math.round((mouse.x - rect.left) * canvas.width / rect.width);
       var y = Math.round((mouse.y - rect.top) * canvas.height / rect.height);
@@ -133,7 +131,7 @@
     }
     canvas.addEventListener("click", mouseClicked, false);
         
-
+}
               
 </script>
 
