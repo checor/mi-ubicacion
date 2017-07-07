@@ -49,6 +49,15 @@
 
 
     <script>
+      var mapSprite = new Image();
+      mapSprite.src = "images/map2.png";
+
+      mark = new Image();
+      mark.src = "images/marker.png"
+
+
+
+
     function getJsonFromUrl() {
       var query = location.search.substr(1);
       var result = {};
@@ -64,18 +73,9 @@
     var canvas = document.getElementById("myMap");
     var context = canvas.getContext("2d");
 
-    context.fillStyle = "#000";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-
-
-
-
     var drawMap =function(x, y){
       console.log("Draw map called")
       context.clearRect(0,0,canvas.width,canvas.height)
-      var mapSprite = new Image();
-      mapSprite.src = "images/map2.png";
 
       var Marker = function () {
         this.Width = 48;
@@ -86,7 +86,6 @@
 
 
 
-      mapSprite.onload = function(){
         context.drawImage(mapSprite,0,0,canvas.width, canvas.height);
 
         var current_url = window.location.href.split("?")[0]
@@ -104,18 +103,16 @@
         marker.XPos = Math.round(x - (marker.Width / 2));
         marker.YPos = Math.round(y - marker.Height);
 
-        mark = new Image();
-        mark.src = "images/marker.png"
-
         mark.onload = function(){
           context.drawImage(mark, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
         }
         context.drawImage(mark, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
-      }
+      
 
       var href = location.href;
 
-    }
+}
+
 window.onload = function () {
     if(url_json["x"] !== null && url_json["y"] !== null){
       drawMap( url_json["x"], url_json["y"])
