@@ -3,7 +3,7 @@
 <head>
 
   <meta charset="utf-8">
-  <title>mi ubicación en #CPMX8</title>
+  <title>Mi ubicación en #CPMX8</title>
   <meta name="description" content="Map for #CPMX8">
   <meta name="author" content="@checor">
 
@@ -77,31 +77,38 @@
       mapSprite.src = "images/map2.png";
 
       var Marker = function () {
-        this.Sprite = new Image();
-        this.Sprite.src = "images/marker.png"
         this.Width = 48;
         this.Height = 48;
         this.XPos = 0;
         this.YPos = 0;
       }
 
-      var marker = new Marker();
+
 
       mapSprite.onload = function(){
         context.drawImage(mapSprite,0,0,canvas.width, canvas.height);
-        marker.XPos = Math.round(x - (marker.Width / 2));
-        marker.YPos = Math.round(y - marker.Height);
-        var current_url = window.location.href.split("&")[0]
+
+        var current_url = window.location.href.split("?")[0]
+        console.log(current_url)
         if(x !== undefined && y !== undefined){
           var new_url = current_url + "?x=" + x + "&y=" + y
-          document.getElementById("MapUrl").value = new_url
-          document.getElementById('twitterbtn').setAttribute('data-url', new_url);
+          document.getElementById("MapUrl").value = encodeURI(new_url)
+          window.onload= function(){
+            document.getElementById("twitterbtn").setAttribute('data-url', encodeURI(new_url));
+          }
         }
         else{
           document.getElementById("MapUrl").value = current_url
         }
-        marker.Sprite.onload =function(){
-          context.drawImage(marker.Sprite, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
+        var marker = new Marker();
+        marker.XPos = Math.round(x - (marker.Width / 2));
+        marker.YPos = Math.round(y - marker.Height);
+
+        mark = new Image();
+        mark.src = "images/marker.png"
+
+        mark.onload = function(){
+          context.drawImage(mark, marker.XPos,  marker.YPos,  marker.Width, marker.Height)
         }
       }
 
